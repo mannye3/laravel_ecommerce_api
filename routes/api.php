@@ -7,13 +7,9 @@ use Illuminate\Support\Facades\Route;
 
 
 // PUBLIC ROUTES
-// Route::resource('products', ProductController::class);
-// Route::get('/products', [ProductController::class, 'index']);
-// Route::get('/products/{$id}', [ProductController::class, 'show']);
-// Route::get('/products/search/{name}', [ProductController::class, 'search']);
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class, 'logout']);
+
 
 
 // PROTECTED ROUTES
@@ -25,8 +21,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 
+Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
+    Route::get('/checkAuthenticated', function () {
+        return response()->json(['message' => 'You are in', 'status' => 200], 200);
+    });
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
 });
+
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+
+    Route::post('logout', [AuthController::class, 'logout']);
+
+});
+
+
+
+
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
