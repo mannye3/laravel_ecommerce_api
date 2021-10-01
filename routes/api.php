@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\API\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CategoryController;
 
 
 
@@ -25,6 +26,18 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
     Route::get('/checkAuthenticated', function () {
         return response()->json(['message' => 'You are in', 'status' => 200], 200);
     });
+
+    //Category
+    Route::get('view-category', [CategoryController::class, 'index']);
+    Route::post('store-category', [CategoryController::class, 'store']);
+    Route::get('edit-category/{id}', [CategoryController::class, 'edit']);
+    Route::put('update-category/{id}', [CategoryController::class, 'update']);
+    Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
+
+
+
+
+
 
 });
 
