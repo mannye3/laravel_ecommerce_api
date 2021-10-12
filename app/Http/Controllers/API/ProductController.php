@@ -146,7 +146,7 @@ class ProductController extends Controller
             'selling_price' => 'required',
             'original_price' => 'required',
             'qty' => 'required',
-           
+
         ]);
 
 
@@ -175,10 +175,10 @@ class ProductController extends Controller
             $product->slug = $request->input('slug');
             $product->name = $request->input('name');
             $product->description = $request->input('description');
-            $product->status = $request->input('status') == true ? '1' : '0';
-           // $product->popular = $popular->input('popular') == true ? '1' : '0';
-            $product->featured = $request->input('featured') == true ? '1' : '0';
-    
+            $product->status = $request->input('status');
+           // $product->popular = $popular->input('popular');
+            $product->featured = $request->input('featured');
+
             if($request->hasFile('image'))
             {
                 $path = $product->image;
@@ -192,14 +192,14 @@ class ProductController extends Controller
                 $file->move('uploads/products/', $filename );
                 $product->image = 'uploads/products/'.$filename;
             }
-    
+
             $product->category_id = $request->input('category_id');
             $product->brand = $request->input('brand');
             $product->selling_price = $request->input('selling_price');
             $product->original_price = $request->input('original_price');
             $product->qty = $request->input('qty');
-    
-    
+
+
 
         $product->update();
         return response()->json([

@@ -5,20 +5,21 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\FrontendController;
 
 
 
 // PUBLIC ROUTES
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::get('getCategory', [FrontendController::class, 'category']);
+Route::get('getProducts/{slug}', [FrontendController::class, 'product']);
+Route::get('viewproductdetail/{category_slug}/{product_slug}', [FrontendController::class, 'viewproduct']);
 
 
 
 // PROTECTED ROUTES
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    // Route::post('/products', [ProductController::class, 'store']);
-    // Route::put('/products/{$id}', [ProductController::class, 'update']);
-    // Route::delete('/products/{$id}', [ProductController::class, 'destroy']);
     Route::post('logout', [AuthController::class, 'logout']);
 });
 
@@ -40,11 +41,10 @@ Route::middleware(['auth:sanctum', 'isAPIAdmin'])->group(function () {
 
      //Product
      Route::get('view-product', [ProductController::class, 'index']);
-    //  Route::get('all-category', [CategoryController::class, 'allcategory']);
      Route::post('store-product', [ProductController::class, 'store']);
      Route::get('edit-product/{id}', [ProductController::class, 'edit']);
      Route::post('update-product/{id}', [ProductController::class, 'update']);
-    //  Route::delete('delete-category/{id}', [CategoryController::class, 'destroy']);
+
 
 
 
